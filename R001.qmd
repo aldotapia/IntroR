@@ -1,0 +1,871 @@
+---
+format:
+  revealjs:
+    theme: [simple, custom.scss]
+    highlight-style: ayu-mirage
+    logo: Rfiles/logo.png
+    footer: "SIG y Teledetección"
+    slide-number: true
+    multiplex: true  
+    show-slide-number: all
+    code-overflow: wrap
+    transition: slide
+    background-transition: fade
+    parallax-background-image: Rfiles/background.png
+    parallax-background-size: "2100px 900px"
+    parallax-background-horizontal: 200
+    parallax-background-vertical: 50
+editor: visual
+execute:
+  echo: true
+---
+
+# Introducción a R
+
+Aldo Tapia
+
+![](Rfiles/uls.png){fig-align="right" width="383.3" height="152.6"}
+
+## ¿Qué es R?
+
+**R** es un lenguaje de programación enfocado en el análisis estadístico. Proviene de otro lenguaje denominado **S**. **R** también es un software libre (licencia GNU-GP).
+
+::: columns
+::: {.column width="70%"}
+Es utilizado para minería de datos, *machine learning*, bioinformática, finanzas, geoanálisis, etc.
+
+El paradigma de programación de este lenguaje es principalmente **funcional**.
+:::
+
+::: {.column width="30%"}
+![](Rfiles/Rlogo.png){fig-align="center" width="300"}
+:::
+:::
+
+## ¿Cómo instalar R?
+
+Para instalar **R** hay que dirigirse a la siguiente página:
+
+[**https://cran.r-project.org**](https://cran.r-project.org)
+
+Los sistemas operativos soportados son:
+
+-   Windows
+
+-   MacOS
+
+-   Linux (Debian, Fedora/Redhat, Ubuntu)
+
+## Interfaz gráfica
+
+![](Rfiles/rscreen.png){fig-align="center" width="750"}
+
+## Entorno de desarrollo integrado
+
+El Entorno de Desarrollo Integrado (o **IDE** por sus siglas en inglés) es una aplicación o software que provee las herramientas esenciales para facilitar al desarrollador o programador escribir el código de una rutina o programa.
+
+En general, posee más herramientas que el editor de código que viene incluido por defecto en cada lenguaje de programación (algunos lenguajes no incluyen un software asociado, sí un compilador).
+
+## RStudio (POSIT desde octubre 2022)
+
+::: columns
+::: {.column width="70%"}
+**RStudio** es el IDE más utilizado por usuarios de **R**. Posee herramientas de visualización y exploración de datos que lo hace ideal para la explotación de este lenguaje con énfasis en la ciencia de datos.
+:::
+
+::: {.column width="30%"}
+![](Rfiles/rstudiologo.png){fig-align="center"}
+:::
+:::
+
+Para la descarga, se debe acceder a <https://www.rstudio.com/products/rstudio/> y descargar la versión *Open Source*.
+
+## Interfaz gráfica de RStudio
+
+::: {.absolute top="10%" left="0"}
+::: {style="text-align: center"}
+![](Rfiles/capturarstudio.png){fig-align="center"}
+:::
+:::
+
+. . .
+
+::: {.absolute top="60%" left="55%"}
+::: {style="text-align: center; color: #CE122D"}
+Esta sección posee visualizador de archivos en carpetas, gráficos, ayuda, entre otras cosas
+:::
+:::
+
+. . .
+
+::: {.absolute top="28%" left="55%"}
+::: {style="text-align: center; color: #CE122D"}
+Los datos generados e importados aparecen aquí.
+:::
+:::
+
+. . .
+
+::: {.absolute top="35%" left="20%" width="350"}
+::: {style="text-align: center; color: #CE122D"}
+Misma consola que el software R, también se pueden crear *scripts* y ejecutar el código línea a línea.
+:::
+:::
+
+## R como calculadora {auto-animate="true"}
+
+### Suma:
+
+```{r}
+#| eval: false
+2 + 2
+```
+
+### Multiplicación:
+
+```{r}
+#| eval: false
+10 * 10
+```
+
+### Módulo:
+
+```{r}
+#| eval: false
+10 %% 3
+```
+
+## R como calculadora {auto-animate="true" visibility="uncounted"}
+
+### Suma:
+
+```{r}
+#| eval: true
+2 + 2
+```
+
+### Multiplicación:
+
+```{r}
+#| eval: false
+10 * 10
+```
+
+### Módulo:
+
+```{r}
+#| eval: false
+10 %% 3
+```
+
+## R como calculadora {auto-animate="true" visibility="uncounted"}
+
+### Suma:
+
+```{r}
+#| eval: true
+2 + 2
+```
+
+### Multiplicación:
+
+```{r}
+#| eval: true
+10 * 10
+```
+
+### Módulo:
+
+```{r}
+#| eval: false
+10 %% 3
+```
+
+## R como calculadora {auto-animate="true" visibility="uncounted"}
+
+### Suma:
+
+```{r}
+#| eval: true
+2 + 2
+```
+
+### Multiplicación:
+
+```{r}
+#| eval: true
+10 * 10
+```
+
+### Módulo:
+
+```{r}
+#| eval: true
+10 %% 3
+```
+
+## Operadores aritméticos en R
+
+| Operador | Operación          | Ejemplo       |
+|----------|--------------------|---------------|
+| \+       | Suma               | 1 + 2 = 3     |
+| \-       | Resta              | 2 - 1 = 1     |
+| \*       | Multiplicación     | 2 \* 3 = 6    |
+| /        | División           | 7 / 3 = 2.333 |
+| %/%      | División entera    | 7 %/% 3 = 2   |
+| \^       | Exponente          | 2 \^ 3 = 8    |
+| %%       | Modulo (remanente) | 7 %% 2 = 1    |
+
+## Operadores relacionales en R
+
+| Operador | Descripción       |
+|----------|-------------------|
+| \<       | Menor que         |
+| \>       | Mayor que         |
+| \<=      | Menor o igual que |
+| \>=      | Mayor o igual que |
+| ==       | Igual que         |
+| !=       | No igual que      |
+
+**Resultado booleano**: `TRUE` (verdadero, equivalente a `1`) o `FALSE` (falso, equivalente a `0`)
+
+## Operadores relacionales en acción {auto-animate="true"}
+
+```{r}
+#| eval: false
+10 > 5
+```
+
+```{r}
+#| eval: false
+10 < 5
+```
+
+```{r}
+#| eval: false
+15 >= 5 * 3
+```
+
+```{r}
+#| eval: false
+2 ^ 3 == 4 * 2
+```
+
+```{r}
+#| eval: false
+2 != 3 
+```
+
+## Operadores relacionales en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+10 > 5
+```
+
+```{r}
+#| eval: false
+10 < 5
+```
+
+```{r}
+#| eval: false
+15 >= 5 * 3
+```
+
+```{r}
+#| eval: false
+2 ^ 3 == 4 * 2
+```
+
+```{r}
+#| eval: false
+2 != 3 
+```
+
+## Operadores relacionales en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+10 > 5
+```
+
+```{r}
+10 < 5
+```
+
+```{r}
+#| eval: false
+15 >= 5 * 3
+```
+
+```{r}
+#| eval: false
+2 ^ 3 == 4 * 2
+```
+
+```{r}
+#| eval: false
+2 != 3 
+```
+
+## Operadores relacionales en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+10 > 5
+```
+
+```{r}
+10 < 5
+```
+
+```{r}
+15 >= 5 * 3
+```
+
+```{r}
+#| eval: false
+2 ^ 3 == 4 * 2
+```
+
+```{r}
+#| eval: false
+2 != 3 
+```
+
+## Operadores relacionales en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+10 > 5
+```
+
+```{r}
+10 < 5
+```
+
+```{r}
+15 >= 5 * 3
+```
+
+```{r}
+2 ^ 3 == 4 * 2
+```
+
+```{r}
+#| eval: false
+2 != 3 
+```
+
+## Operadores relacionales en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+10 > 5
+```
+
+```{r}
+10 < 5
+```
+
+```{r}
+15 >= 5 * 3
+```
+
+```{r}
+2 ^ 3 == 4 * 2
+```
+
+```{r}
+2 != 3 
+```
+
+::: incremental
+-   No se utiliza el símbolo `=` para evaluaciones relacionales. Ese símbolo está reservado para la **asignación** de objetos (ya lo veremos).
+:::
+
+## Operadores lógicos en R
+
+| Operador | Descripción           |
+|----------|-----------------------|
+| !        | NO lógico             |
+| &        | Y lógico por elemento |
+| &&       | Y lógico              |
+| \|       | O lógico por elemento |
+| \|\|     | O lógico              |
+
+## Operadores lógicos en acción {auto-animate="true"}
+
+```{r}
+#| eval: false
+!TRUE
+```
+
+```{r}
+#| eval: false
+TRUE & FALSE
+```
+
+```{r}
+#| eval: false
+TRUE | FALSE
+```
+
+## Operadores lógicos en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+!TRUE
+```
+
+```{r}
+#| eval: false
+TRUE & FALSE
+```
+
+```{r}
+#| eval: false
+TRUE | FALSE
+```
+
+## Operadores lógicos en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+!TRUE
+```
+
+```{r}
+TRUE & FALSE
+```
+
+```{r}
+#| eval: false
+TRUE | FALSE
+```
+
+## Operadores lógicos en acción {auto-animate="true" visibility="uncounted"}
+
+```{r}
+!TRUE
+```
+
+```{r}
+TRUE & FALSE
+```
+
+```{r}
+TRUE | FALSE
+```
+
+::: incremental
+-   `&&` y `||` devuelven la operación lógica correspondiente al primer elemento. Ya que aún no vemos elementos múltiples, aún no lo analizaremos.
+:::
+
+## Operadores de asignación
+
+| Operador      | Descripción                   |
+|---------------|-------------------------------|
+| \<-, =, \<\<- | Asignación hacia la izquierda |
+| -\>, -\>\>    | Asignación hacia la derecha   |
+
+Los operadores `<-` y `=` son los más utilizados. El uso de estos operadores es para **asignar** un valor a un **objeto**. Por ejemplo:
+
+```{r}
+#| code-line-numbers: "|1|2"
+a <- 10
+a
+```
+
+## Creación de objetos
+
+Un objeto puede contener un valor, una cadena de valores u otro tipo de elemento. Hay normas a seguir en la creación de objetos, las cuales son:
+
+-   Los objetos pueden tener cualquier nombre, desde `x` a `nombre_de_objeto_largo`.
+
+-   Hay nombres que no se pueden utilizar (nombres reservados), ya que son asignados a una función (como `if`, `else`, `repeat`, `while`, `TRUE`, `FALSE`, `NULL`, etc).
+
+-   Los nombres de los objetos deben ser explícitos y no muy largos para escribir un código ordenado.
+
+## Creación de objetos
+
+-   Los nombres no pueden comenzar con números.
+
+-   Se recomienda evitar el uso de puntuación en el nombre (como `variable.uno`).
+
+-   Se recomienda el uso de adjetivos para variables y verbos para funciones.
+
+-   Los nombres son sensibles a mayúsculas, no es lo mismo `temperatura` a `Temperatura`.
+
+-   Hay que ser **consistente** en el estilo usado (hay libertad para elegir su propia forma de escribir).
+
+## Ejemplos de asignación de objetos {auto-animate="true"}
+
+```{r}
+b <- 9
+```
+
+Los objetos quedan alojados en la memoria de **R**, permitiendo interactuar entre objetos, variables no asignadas, funciones, etc.
+
+```{r}
+#| eval: false
+a + b
+
+a - b
+
+a * 20
+
+sqrt(b)
+```
+
+## Ejemplos de asignación de objetos {auto-animate="true" visibility="uncounted"}
+
+```{r}
+b <- 9
+```
+
+Los objetos quedan alojados en la memoria de **R**, permitiendo interactuar entre objetos, variables no asignadas, funciones, etc.
+
+```{r}
+a + b
+
+a - b
+
+a * 20
+
+sqrt(b)
+```
+
+## Funciones
+
+Las funciones son códigos pre-definidos que automatizan una serie de operaciones con un objetivo en particular, resultando un producto al aplicar la función.
+
+La función `sqrt(x)` calcula la raíz cuadrada de `x`. Para entender que valores puede tener `x` hay que consultar la documentación de la función anteponiendo `?` al nombre de la función, por ejemplo: `?sqrt`
+
+## Funciones
+
+> ### Miscellaneous Mathematical Functions
+>
+> #### Description
+>
+>     `abs(x)` computes the absolute value of x, `sqrt(x)` computes the (principal) square root of x, √x$.
+>
+>     The naming follows the standard for computer languages such as C or Fortran.
+>
+> #### Usage
+>
+>     abs(x)
+>     sqrt(x)
+>
+> #### Arguments
+>
+>     `x`  a numeric or `complex` vector or array.
+
+## Creación de funciones
+
+Las funciones pueden ser creadas utilizando la función `function()` e incorporando los argumentos necesarios dentro del paréntesis. Para abrir y cerrar las operaciones que ejecuta la función se utilizan paréntesis de llave:
+
+```{r}
+sumar <- function(x,y){
+  x + y
+}
+
+sumar(x = a, y = b)
+```
+
+Los argumentos de la función `sumar` son `x` e `y`. En este caso se asigna `a` a `x` y `b` a `y`. Siempre el argumento va a la izquierda y el parámetro a la derecha.
+
+## Creación de funciones
+
+Si los argumentos de la función están mal ingresados, **R** arrojará un error
+
+```{r}
+#| eval: false
+sumar(a = x, b = y)
+```
+
+>       Error in sumar(a = x, b = y) : unused arguments (a = x, b = y)
+
+Eso sí, los argumentos están puestos en un orden predeterminado (el que nosotros elegimos al crear la función). Se puede omitir señalar el nombre del argumento y asignar el valor en base a la posición:
+
+```{r}
+sumar(a, b)
+```
+
+## Tipos de datos
+
+Existe esencialmente tres tipos de datos: numéricos (entero, dobles, complejos), cadena de caracteres y lógicos.
+
+Las cadenas de caracteres se definen incluyendo comillas simples o dobles a caracteres alfanuméricos. Por ejemplo:
+
+```{r}
+"palabra"
+
+'oración de varias palabras'
+```
+
+## Vectores
+
+Los vectores son una colección de valores del mismo tipo de dato. Para crear un vector se utiliza la función combinar (`c()`):
+
+```{r}
+c("enero", "febrero", "marzo", "abril")
+
+c(10, 8, 6, 4, 2)
+
+c(1:5, 9:12)
+
+c(TRUE, FALSE, TRUE, TRUE)
+```
+
+## Vectores
+
+Si se combinan dos o más tipos de datos, se transforman al tipo que predomina:
+
+```{r}
+c("enero", 5, "marzo", "abril")
+
+c(10, TRUE, 6, 4, 2)
+
+c(TRUE, "febrero", TRUE, TRUE)
+```
+
+::: incremental
+-   En términos de importancia es cadena de caracteres \> numérico \> lógico.
+
+-   Los lógicos si están entre números son convertidos a `1` (`TRUE`) o `0` (`FALSE`). Si hay una cadena, son todos convertidos a ese tipo.
+:::
+
+## Valores perdidos
+
+Si hay algún valor perdido en una serie de valores, este es representado por un `NA`. Ese valor perdido está utilizando un espacio dentro del vector, incluso hará fallar algunas funciones. Hay que considerar tratar o suprimir estos datos:
+
+```{r}
+d <- c(1, 5, NA, 6, 2)
+
+mean(d)
+
+mean(d, na.rm = TRUE)
+```
+
+El argumento `na.rm` remueve los `NA` en el cálculo y por defecto está apagado (`FALSE`). Solo basta con encenderlo con el valor `TRUE`
+
+## El dataframe
+
+Si los vectores son objetos unidimensionales, los dataframe son objetos bidimensionales (tablas tabulares o rectangulares). Son similares a las tablas de una hoja de cálculo.
+
+El dataframe se compone de un compendio de vectores de igual longitud. Cada uno de esos vectores poseen un único tipo de dato. Un dataframe puede contener vectores de diferentes tipos de datos.
+
+Cada vector representa una columna, cada elemento dentro del vector representa una fila.
+
+## Creación de un dataframe
+
+Para crear un dataframe sólo es necesario utilizar la función `data.frame()` y añadir tantos vectores se deseen dentro de los paréntesis:
+
+```{r}
+v1 <- c("Pedro", "Juan", "Diego")
+v2 <- c(TRUE, TRUE, FALSE)
+v3 <- c(6, 4, 0)
+
+df <- data.frame(nombre = v1, trabaja = v2, horas = v3)
+
+df
+```
+
+## Matriz
+
+La matriz es otro objeto bidimensional. La diferencia es que sólo puede poseer valores numéricos y en su defecto, `NA`s. Para crear una matriz se utiliza la función `matrix()`:
+
+```{r}
+matrix(data = c(1,3,5,7,4,1,5,NA,21), nrow = 3)
+```
+
+Posee argumentos para poder armar la matriz de forma diferente:
+
+```{r}
+matrix(data = c(1,3,5,7,4,1,5,NA,21), nrow = 3, byrow = TRUE)
+```
+
+## La lista
+
+La lista es un tipo de variable que permite guardar cualquier tipo de objeto en su interior. Es muy útil para ir almacenando información cuando se debe realizar un mismo procedimiento una y otra vez. Es como un gran almacen lleno de casilleros
+
+Para crearla se utiliza la función `list()`:
+
+```{r}
+l <- list()
+```
+
+No es necesario ingresar los objetos a almacenar inmediatamente, se pueden ir depositando a medida que sea necesario.
+
+## Seleccionando elementos
+
+Para seleccionar elementos dentro de un vector se utiliza la forma `nombre[posición]`; de un dataframe o matriz, `nombre[fila,columna]`; de una lista, `nombre[[posición]]`:
+
+```{r}
+v1[1]
+
+v1[2:3]
+
+df[1,]
+
+df[,'nombre']
+
+df[3,2]
+```
+
+## Selección extendida en dataframes
+
+Si se desea seleccionar una columna completa se utiliza la forma `nombre$columna`. También, se pueden filtrar las observaciones con vectores lógicos:
+
+```{r}
+df[df$trabaja,]
+
+df[df$nombre == 'Pedro',]
+
+df$nombre[df$horas <= 5]
+```
+
+## Asignación dentro de una lista
+
+Para asignar objetos o variables dentro de una lista, se debe utilizar la forma de selección para abrir el casillero de la lista utilizando el vector de asignación para registrar el objeto (esto también es válido para vectores, dataframes, matrices, etc)
+
+```{r}
+l[[1]] <- a
+l[[2]] <- df
+
+l
+```
+
+## Control de flujo
+
+Existen varios tipos de estructura para controlar las instrucciones que ejecuta un código, estas se denominan estructuras control de flujo. El flujo de un código es la manera en la cual se ejecuta cada una de las instrucciones desde principio a final.
+
+Este tipo de estructura permite establecer reglas, como: *si pasa esto, realiza tal tarea, sino continua*; *repite estas instrucciones n cantidad de veces*; *mientras esto ocurra, realiza lo siguiente*; entre otras.
+
+## if
+
+Si se cumple una condición, ejecuta lo que indica el cuerpo de la instrucción `if`
+
+![](Rfiles/if.svg)
+
+------------------------------------------------------------------------
+
+En códido de **R** se requiere usar el operador `if` acompañado de un paréntesis (donde se incorpora el evaluador) y seguido de un paréntesis de llave, donde se alojará el cuerpo de `if` si la prueba es positiva.
+
+Si la evaluación da como resultado un `FALSE`, no se ejecuta el cuerpo de `if`
+
+```{r}
+a <- 2
+
+if(a >= 5){
+  print('Se evalúa el cuerpo')
+}
+```
+
+## if else
+
+Si no se cumple la condición de `if`, se ejecuta el cuerpo de `else`.
+
+![](Rfiles/ifelse.svg)
+
+------------------------------------------------------------------------
+
+Para este caso, al final del paréntesis de llave se agrega `else` y otro paréntesis de llave donde al interior se incluye el cuerpo de `else`
+
+```{r}
+a <- 10
+
+if (a >= 5) {
+  print('Se evalúa el cuerpo de if')
+} else {
+  print('Se evalúa el cuerpo de else')
+}
+
+a <- 2
+
+if (a >= 5) {
+  print('Se evalúa el cuerpo de if')
+} else {
+  print('Se evalúa el cuerpo de else')
+}
+
+```
+
+## for
+
+El operador `for` ejecuta el código del cuerpo para cada uno de los elementos de entrada a evaluar.
+
+![](Rfiles/for.svg)
+
+------------------------------------------------------------------------
+
+Por ejemplo, si el elemento de entrada es un vector numérico, evaluará cada uno de las posiciones de ese vector
+
+```{r}
+a <- 1:10
+
+for (i in a) {
+  print(i^2)
+}
+```
+
+## while
+
+El operador `while` evalua una expresión lógica y repite el código mientras la expresión sea `FALSE`. Se debe tener cuidado ya que si la expresión lógica no cambia pueda que se entre en un bucle infinito.
+
+![](Rfiles/while.svg)
+
+------------------------------------------------------------------------
+
+Se recomienda incluir un modificador del objeto a evaluar dentro del cuerpo de `while` para programar cuando debe terminar el bucle.
+
+```{r}
+i <- 1
+
+while (i < 6) {
+  print(i)
+  i = i+1
+}
+```
+
+## Otros operadores
+
+Otros operadores que permiten controlar aún más el flujo del código dentro de un bucle, son `break`, `continue` y `repeat`. El primero rompe un bucle; el segundo, permite que continúe el bucle; y el último es equivalente a `while(TRUE)`
+
+```{r}
+x <- 1:5
+for (val in x) {
+  if (val == 3){
+    break
+  }
+  print(val)
+}
+```
+
+------------------------------------------------------------------------
+
+```{r}
+x <- 1:5
+for (val in x) {
+  if (val == 3){
+    next
+  }
+  print(val)
+}
+
+x <- 1
+repeat {
+  print(x)
+  x = x+1
+  if (x == 6){
+    break
+  }
+}
+```
+
+## Comentarios
+
+Los comentarios en **R** se incluyen con el símbolo '\#'. Todo lo que esté a la derecha de este símbolo no se ejecutará ni afectará la ejecución de las líneas siguientes.
+
+```{r}
+# comentario
+
+print(a) # otro más
+
+# print(b) esto no se ejecutará
+```
