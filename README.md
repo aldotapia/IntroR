@@ -6,7 +6,7 @@ Repositorio para alojar las presentaciones de R espacial para la asignatura de S
 
 ## Índice
 
-:seedling: [Introducción a R](https://aldotapia.github.io/IntroR/f29e0b2a/R001.html#/introducción-a-r)
+:seedling: [Introducción a R](https://aldotapia.github.io/IntroR/R001.html#/introducción-a-r)
 
 :construction: Vectores en R
 
