@@ -1,0 +1,504 @@
+---
+format:
+  revealjs:
+    theme: [simple, custom.scss]
+    highlight-style: ayu-mirage
+    logo: Rfiles/logo.png
+    footer: "SIG y Teledetección"
+    slide-number: true
+    multiplex: true  
+    show-slide-number: all
+    code-overflow: wrap
+    transition: slide
+    background-transition: fade
+    parallax-background-image: Rfiles/background.png
+    parallax-background-size: "2100px 900px"
+    parallax-background-horizontal: 200
+    parallax-background-vertical: 50
+editor: visual
+execute:
+  echo: true
+---
+
+# Librerías geoespaciales y operaciones básicas
+
+Aldo Tapia
+
+![](Rfiles/uls.png){fig-align="right" width="383.3" height="152.6"}
+
+## Principales librerías
+
+Un buen punto de partida para la búsqueda de librerías es [r-universe](https://r-universe.dev/search/), el cual es un proyecto que tiene por objetivo crear repositorios personales para mostrar las librerías utilizadas por cada usuario.
+
+En este repositorio es posible acceder a las librerías por organización, donde cada organización está asociada a una temática en particular. A continuación se presentan las principales organizaciones ligadas al mundo geoespacial:
+
+-   [r-spatial](https://r-spatial.r-universe.dev/ui#packages): `sf`, `rgee`, `gstat`, `stars`, `mapview`, entre otros. Más información se puede encontrar en [r-spatial.org](https://r-spatial.org)
+
+-   [rspatial](https://rspatial.r-universe.dev/ui#packages): `terra`, `geodata`, entre otros.
+
+## Instalación de las librerías
+
+Para los ejemplos prácticos, se instalarán las dos principales librerías para la exploración de la información espacial en R:
+
+```{r}
+#| eval: false
+install.packages('sf', dependencies = TRUE)
+install.packages('terra', dependencies = TRUE)
+```
+
+Una vez instaladas las librerías, hay que cargarlas con la función `library()` (también se puede utilizar `require()`, siendo esta más utilizada para probar si es que está instalada la librería, ya que arroja una advertencia en vez de un error si no encuentra la librería).
+
+```{r}
+#| eval: true
+library(sf)
+library(terra)
+```
+
+## Cargar archivos vectoriales
+
+Considerando que ya hemos establecido nuestro directorio de trabajo con `setwd()`, a continuación se cargarán algunas de las coberturas utilizadas para la evaluación de geoprocesos:
+
+```{r}
+#| eval: true
+
+zonas <- read_sf('Insumos/Sectores.shp')
+
+arboles <- read_sf('Insumos/toptree.shp')
+
+propiedad <- read_sf('Insumos/propiedad_agricola.shp')
+
+canal <- read_sf('Insumos/ACER_Canal.shp')
+
+compuertas <- read_sf('Insumos/ACER_Compuertas.shp')
+```
+
+## Imprimir propiedades
+
+```{r}
+zonas
+```
+
+## Imprimir propiedades
+
+```{r}
+arboles
+```
+
+## Imprimir propiedades
+
+```{r}
+canal
+```
+
+## Graficar objetos espaciales
+
+Existen dos maneras utilizando `sf`, graficar con utilizando los atributos o graficar la geometría:
+
+```{r}
+plot(propiedad)
+```
+
+## Graficar objetos espaciales
+
+Con la función `st_geometry()` se extrae sólo la geometría de la entidad, pudiendo controlar los parámetros gráficos con argumentos como `col` (color), `border` (color de los bordes del polígono), `lwd` (grosor de la línea), `lty` (tipo de línea), etc. Para más información de los argumentos, consultar la sección de ayuda: `?plot.sfc_GEOMETRY`.
+
+Se pueden apilar los objetos espaciales graficados utilizando el argumento `add = TRUE`.
+
+## Graficar objetos espaciales
+
+Color personalizado:
+
+```{r}
+plot(st_geometry(propiedad), col = 'dodgerblue', border = 'blue')
+```
+
+## Graficar objetos espaciales
+
+Incluir varias geometrías:
+
+```{r}
+plot(st_geometry(propiedad), col = 'lightblue', border = 'dodgerblue')
+plot(st_geometry(canal), col = 'red', add = TRUE)
+plot(st_geometry(compuertas), col = 'gray5', add = TRUE)
+plot(st_geometry(zonas), col = 'green', border = 'darkgreen', add = TRUE)
+```
+
+## Incluir grilla y definir caja delimitadora
+
+```{r}
+plot(st_geometry(propiedad), col = 'lightblue', border = 'dodgerblue', axes = TRUE, xlim = c(268500, 269500), ylim = c(6615000,6616000))
+plot(st_geometry(canal), col = 'red', add = TRUE)
+plot(st_geometry(compuertas), col = 'gray5', add = TRUE)
+plot(st_geometry(zonas), col = 'green', border = 'darkgreen', add = TRUE)
+```
+
+## Cargar archivos vectoriales
+
+La función para cargar archivos raster se denomina `rast()`:
+
+```{r}
+DEM <- rast('Insumos/DEM.tif')
+
+DSM <- rast('Insumos/DSM.tif')
+
+ortomosaico <- rast('Insumos/Ortomosaico.tif')
+```
+
+## Imprimir propiedades
+
+```{r}
+DEM
+```
+
+## Imprimir propiedades
+
+```{r}
+ortomosaico
+```
+
+## Graficar rasters
+
+```{r}
+plot(DEM)
+```
+
+## Graficar rasters
+
+```{r}
+plotRGB(ortomosaico)
+```
+
+## Análisis espacial
+
+Los tipos de análisis espacial descritos en clases son:
+
+::: columns
+::: {.column width="50%"}
+-   Consulta espacial
+
+-   Análisis topológico
+
+-   Medición
+
+-   Combinación
+
+-   Transformación
+:::
+
+::: {.column width="50%"}
+-   Análisis de superficie
+
+-   Estadística descriptiva
+
+-   Inferencia *(no incluído aquí)*
+
+-   Toma de decisiones y optimización *(no incluído aquí)*
+:::
+:::
+
+## Consulta espacial
+
+::: columns
+::: {.column width="60%"}
+¿Cuáles árboles son mayores a 2,5 $[m]$?
+
+```{r}
+#| eval: false
+plot(st_geometry(arboles),
+     pch = 20, cex = 0.5)
+arboles_grandes <- arboles[arboles$Z >= 2.5,]
+plot(st_geometry(arboles_grandes),
+     pch = 20, cex = 1,
+     col = 'red', add = T)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+plot(st_geometry(arboles), pch = 20, cex = 0.5)
+arboles_grandes <- arboles[arboles$Z >= 2.5,]
+plot(st_geometry(arboles_grandes), pch = 20, cex = 1, col = 'red', add = T)
+```
+:::
+:::
+
+## Análisis topológico
+
+¿Existen geometrías solapadas en la capa vectorial de propiedades rurales?
+
+```{r}
+propiedad_con_topo <- st_intersection(propiedad)
+propiedad_con_topo[,c('ROL','n.overlaps')] %>% st_drop_geometry()
+```
+
+## Medición
+
+¿Qué tan distanciadas están las compuertas de los canales del cultivo?
+
+```{r}
+# homogenizar SCR
+zonas <- st_transform(zonas, 'EPSG:32719')
+distancia <- st_distance(compuertas, zonas)
+rownames(distancia) <- compuertas$PROPIETARI
+colnames(distancia) <- paste('Sector', zonas$SectorRieg)
+distancia
+```
+
+## Combinación
+
+::: columns
+::: {.column width="60%"}
+¿Cuáles árboles son mayores a 2,5 $[m]$?
+
+```{r}
+#| eval: false
+arboles_sect1 <- st_intersection(arboles,
+                                 zonas[zonas$SectorRieg == 1,])
+plot(st_geometry(zonas))
+plot(st_geometry(arboles_sect1),
+     pch = 20,  col = 'red', cex = 0.5, add = T)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+arboles_sect1 <- st_intersection(arboles, zonas[zonas$SectorRieg == 1,])
+plot(st_geometry(zonas))
+plot(st_geometry(arboles_sect1),  col = 'red', pch = 20, cex = 0.5, add = T)
+```
+:::
+:::
+
+## Transformación
+
+::: columns
+::: {.column width="60%"}
+¿Qué espacio utiliza el canal en el territorio (incluyendo servidumbre de paso)?
+
+```{r}
+#| eval: false
+canal$ANCHO[canal$ANCHO == 0] <- max(canal$ANCHO)
+canal$ancho_con_serv <- (canal$ANCHO * 2)/100 # min 50% por cada lado
+canal_superf <- st_buffer(canal, canal$ancho_con_serv)
+plot(st_geometry(canal_superf))
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+canal$ANCHO[canal$ANCHO == 0] <- max(canal$ANCHO)
+canal$ancho_con_serv <- (canal$ANCHO * 2)/100 # min 50% por cada lado
+canal_superf <- st_buffer(canal, canal$ancho_con_serv)
+plot(st_geometry(canal_superf))
+```
+:::
+:::
+
+## Análisis de superficie
+
+::: columns
+::: {.column width="60%"}
+¿Qué efecto tienen los camellones en el terreno?
+
+```{r}
+#| eval: false
+# TRI: Terrain Ruggedness Index
+DEM_agg <- aggregate(DEM, fact = 5, fun = mean)
+tri <- terrain(DEM_agg, v = 'TRI')
+plot(tri)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+#| results: hide
+DEM_agg <- aggregate(DEM, fact = 5, fun = mean)
+tri <- terrain(DEM_agg, v = 'TRI')
+plot(tri)
+```
+:::
+:::
+
+## Estadística descriptiva
+
+¿Cuál es el mínimo, promedio y máximo de altura de la copa de los árboles?
+
+```{r}
+round(min(arboles$Z), 2)
+round(mean(arboles$Z), 2)
+round(max(arboles$Z), 2)
+```
+
+## Geoprocesos raster
+
+-   Operaciones aritméticas
+-   Recortar
+-   Mosaico
+-   Componer bandas
+-   Remuestrear
+
+## Operaciones aritméticas
+
+::: columns
+::: {.column width="60%"}
+¿Podemos separar los árboles del modelo de superficie?
+
+```{r}
+#| eval: false
+arboles_raster <- DSM - DEM
+plot(arboles_raster)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+#| results: hide
+arboles_raster <- DSM - DEM
+plot(arboles_raster)
+```
+:::
+:::
+
+## Recortar
+
+::: columns
+::: {.column width="60%"}
+¿Cuál es el cuadrante correspondiente al sector 1?
+
+```{r}
+#| eval: false
+orto_sect1 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 1,]),
+                   mask = TRUE)
+plotRGB(orto_sect1)
+plot(st_geometry(zonas),
+     border = 'blue', add = TRUE)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+#| results: hide
+orto_sect1 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 1,]),
+                   mask = TRUE)
+plotRGB(orto_sect1)
+plot(st_geometry(zonas),
+     border = 'blue', add = TRUE)
+```
+:::
+:::
+
+
+## Mosaico
+
+::: columns
+::: {.column width="60%"}
+¿Se puede obtener un mosaico de los 3 sectores recortados? *Pensando en que los tenemos individuales como archivos*
+
+```{r}
+#| eval: false
+orto_sect1 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 1,]),
+                   mask = TRUE)
+orto_sect2 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 2,]),
+                   mask = TRUE)
+orto_sect3 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 3,]),
+                   mask = TRUE)
+ortomosaico_nuevo <- mosaic(orto_sect1, orto_sect2, orto_sect3)
+plotRGB(ortomosaico_nuevo)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+#| results: hide
+orto_sect1 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 1,]),
+                   mask = TRUE)
+orto_sect2 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 2,]),
+                   mask = TRUE)
+orto_sect3 <- crop(ortomosaico,
+                   vect(zonas[zonas$SectorRieg == 3,]),
+                   mask = TRUE)
+ortomosaico_nuevo <- mosaic(orto_sect1, orto_sect2, orto_sect3)
+plotRGB(ortomosaico_nuevo)
+```
+:::
+:::
+
+## Componer bandas
+
+::: columns
+::: {.column width="60%"}
+¿Cómo luciría la representación del DEM, DSM y altura de plantas?
+
+```{r}
+#| eval: false
+terreno_mixto <- c(DEM, DSM, arboles_raster)
+plotRGB(terreno_mixto, stretch = 'lin')
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+#| results: hide
+terreno_mixto <- c(DEM, DSM, arboles_raster)
+plotRGB(terreno_mixto, stretch = 'lin')
+```
+:::
+:::
+
+## Remuestrear
+
+::: columns
+::: {.column width="60%"}
+¿Cuáles son las curvas de nivel del raster en escala de 10x10 $[m]$?
+
+```{r}
+#| eval: false
+DEM_10x10 <- project(DEM, 'EPSG:32719', res = 10)
+plot(DEM)
+contour(DEM_10x10, add = TRUE)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5.5
+#| results: hide
+DEM_10x10 <- project(DEM, 'EPSG:32719', res = 10)
+plot(DEM)
+contour(DEM_10x10, add = TRUE)
+```
+:::
+:::
