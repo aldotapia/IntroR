@@ -8,9 +8,7 @@ Repositorio para alojar las presentaciones de R espacial para la asignatura de S
 
 :seedling: [Introducción a R](https://aldotapia.github.io/IntroR/R001.html#/introducción-a-r)
 
-:construction: Vectores en R
-
-:construction: Raster en R
+:seedling: [Librerías geoespaciales y operaciones básicas](https://aldotapia.github.io/IntroR/R002.html)
 
 :construction: Clasificación en R
 
